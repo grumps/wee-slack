@@ -2516,7 +2516,8 @@ def process_message(message_json, eventrouter, store=True, **kwargs):
                 channel.unread_count_display += 1
             except:
                 channel.unread_count_display = 1
-            channel.buffer_prnt(message.sender, text, message.ts, tag_nick=message.sender_plain, **kwargs)
+            if SlackTS(message.ts) not in channel.messages:
+                channel.buffer_prnt(message.sender, text, message.ts, tag_nick=message.sender_plain, **kwargs)
 
         if store:
             channel.store_message(message, team)
